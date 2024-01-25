@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Dialog } from "@/components/Dialog";
-import connectDB from "@/api/database";
+import createDatabaseClient from "@/api/database";
 
 export default function CreateWikiModalSection() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,9 +14,15 @@ export default function CreateWikiModalSection() {
 
   async function createWiki() {
     // TODO: 이 코드를 어디에서 사용할 것인가?
-    // 서버에 요청해달라고 함? 서버에서 캐시만 제거?
+    // 서버에 요청해달라고 함? 서버에서 캐시만 제거? 캐시를 제거하면 요청을 할 것이다.
     // TODO: supabase 레코드 생성
-    connectDB();
+    const db = createDatabaseClient();
+
+    const { data, error } = await db
+      .from("Page")
+      .insert([{ title: titleInput, body: bodyInput }])
+      .select();
+    if (error) throw error;
     closeModal();
   }
 
