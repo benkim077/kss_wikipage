@@ -1,20 +1,14 @@
-import { createClient } from "@supabase/supabase-js";
-import { Database } from "@/interface/supabase";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { List as WikiList } from "@/components/List";
 import CreateWikiModalSection from "./CreateWikiModalSection";
+import createDatabaseClient from "@/api/database";
 
 async function fetchWikis(pageNum: number) {
-  // url, key는 환경 변수로 빼야하지만 빼지 않겠다.
-  const supabaseUrl = "https://mywzayzepbfaahgayxty.supabase.co";
-  const supabaseKey =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15d3pheXplcGJmYWFoZ2F5eHR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDYwODA3MzcsImV4cCI6MjAyMTY1NjczN30.5dismLpTWMzMuTa7ra5tpAA83oOMV7fgktf06hJNf3w";
-  const supabase = createClient<Database>(supabaseUrl, supabaseKey);
-
   const pageSize = 5;
   const pageIndex = pageNum;
-  let { data: wikis, error } = await supabase
+  const db = createDatabaseClient();
+  let { data: wikis, error } = await db
     .from("Page")
     .select("id, title")
     // TODO: 최신 순으로 나오도록 수정
@@ -52,7 +46,11 @@ export default async function IndexPage({
         <WikiList>
           <WikiList.Items>
             {wikis.map((wiki) => {
-              return <WikiList.Item key={wiki.id}>{wiki.title}</WikiList.Item>;
+              return (
+                <WikiList.Item key={wiki.id}>
+                  <Link href={`wiki/${wiki.id}`}>{wiki.title}</Link>
+                </WikiList.Item>
+              );
             })}
           </WikiList.Items>
         </WikiList>

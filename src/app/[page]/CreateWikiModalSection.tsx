@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Dialog } from "@/components/Dialog";
+import connectDB from "@/api/database";
 
 export default function CreateWikiModalSection() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,8 +12,11 @@ export default function CreateWikiModalSection() {
   const [titleInput, setTitleInput] = useState("");
   const [bodyInput, setBodyInput] = useState("");
 
-  function createWiki() {
+  async function createWiki() {
+    // TODO: 이 코드를 어디에서 사용할 것인가?
+    // 서버에 요청해달라고 함? 서버에서 캐시만 제거?
     // TODO: supabase 레코드 생성
+    connectDB();
     closeModal();
   }
 
