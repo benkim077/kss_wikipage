@@ -5,3 +5,7 @@
 a {
     @apply text-sky-400 font-semibold;
 }
+
+button {
+    @apply border border-black p-1 rounded;
+}
