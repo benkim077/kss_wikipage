@@ -11,17 +11,14 @@ async function fetchWikis(pageNum: number) {
   let { data: wikis, error } = await db
     .from("Page")
     .select("id, title")
-    // TODO: 최신 순으로 나오도록 수정
-    .order("id", { ascending: true })
-    // 1페이지 당 5개이지만 6개를 불러옵니다.
-    // TODO: 5개와 boolean을 리턴하도록 할 수 있나?
-    .limit(pageSize + 1)
-    .gt("id", pageIndex * pageSize);
+    .order("id", { ascending: false })
+    .range(pageIndex * pageSize, pageIndex * pageSize + pageSize);
   if (error) throw error;
   // 여기서 null을 처리하면 JSX에서 처리할 필요가 없음
   if (wikis === null) throw new Error("Assertion: Pages is null");
   if (wikis.length === 0) notFound();
 
+  // 페이지 당 위키 6개를 불러오고, 5개와 다음 페이지 존재 여부로 변환시킵니다.
   let isNextPage = false;
   if (wikis.length > 5) {
     isNextPage = true;
@@ -57,9 +54,21 @@ export default async function IndexPage({
       </main>
       <footer>
         {currentPageNum > 0 && (
-          <Link href={`/${currentPageNum - 1}`}>이전 페이지</Link>
+          <Link
+            href={`/${currentPageNum - 1}`}
+            className="font-normal text-black border border-black p-1 rounded"
+          >
+            이전 페이지
+          </Link>
         )}
-        {isNextPage && <Link href={`/${currentPageNum + 1}`}>다음 페이지</Link>}
+        {isNextPage && (
+          <Link
+            href={`/${currentPageNum + 1}`}
+            className="font-normal text-black border border-black p-1 rounded"
+          >
+            다음 페이지
+          </Link>
+        )}
       </footer>
     </>
   );
