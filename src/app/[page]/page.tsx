@@ -2,6 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/interface/supabase";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { List } from "@/components/List";
+import { ReactNode, useState } from "react";
 
 async function fetchWikis(pageNum: number) {
   // url, key는 환경 변수로 빼야하지만 빼지 않겠다.
@@ -46,16 +48,13 @@ export default async function IndexPage({
   return (
     <>
       <main>
-        <ul>
-          {wikis &&
-            wikis.map((wiki) => {
-              return (
-                <li key={wiki.id}>
-                  <Link href={`/wiki/${wiki.id}`}>{wiki.title}</Link>
-                </li>
-              );
+        <List>
+          <List.Items>
+            {wikis.map((wiki) => {
+              return <List.Item key={wiki.id}>{wiki.title}</List.Item>;
             })}
-        </ul>
+          </List.Items>
+        </List>
       </main>
       <footer>
         {currentPageNum > 0 && (
