@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Dialog } from "@/components/Dialog";
 import createDatabaseClient from "@/api/database";
+import revalidateByPath from "@/api/revalidateByPath";
 
 export default function CreateWikiModalSection() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,6 +24,9 @@ export default function CreateWikiModalSection() {
       .insert([{ title: titleInput, body: bodyInput }])
       .select();
     if (error) throw error;
+
+    await revalidateByPath("/[page]");
+
     closeModal();
   }
 
