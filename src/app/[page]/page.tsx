@@ -2,8 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/interface/supabase";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { List } from "@/components/List";
-import { ReactNode, useState } from "react";
+import { List as WikiList } from "@/components/List";
+import CreateWikiModalSection from "./CreateWikiModalSection";
 
 async function fetchWikis(pageNum: number) {
   // url, key는 환경 변수로 빼야하지만 빼지 않겠다.
@@ -48,13 +48,14 @@ export default async function IndexPage({
   return (
     <>
       <main>
-        <List>
-          <List.Items>
+        <CreateWikiModalSection />
+        <WikiList>
+          <WikiList.Items>
             {wikis.map((wiki) => {
-              return <List.Item key={wiki.id}>{wiki.title}</List.Item>;
+              return <WikiList.Item key={wiki.id}>{wiki.title}</WikiList.Item>;
             })}
-          </List.Items>
-        </List>
+          </WikiList.Items>
+        </WikiList>
       </main>
       <footer>
         {currentPageNum > 0 && (
