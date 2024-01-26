@@ -4,6 +4,8 @@ import { List as WikiList } from "@/components/List";
 import CreateWikiModalSection from "./CreateWikiModalSection";
 import createDatabaseClient from "@/api/database";
 
+export const revalidate = 0;
+
 async function fetchWikis(pageNum: number) {
   const pageSize = 5;
   const pageIndex = pageNum;
@@ -17,7 +19,6 @@ async function fetchWikis(pageNum: number) {
   // 여기서 null을 처리하면 JSX에서 처리할 필요가 없음
   if (wikis === null) throw new Error("Assertion: Pages is null");
   if (wikis.length === 0) notFound();
-
   // 페이지 당 위키 6개를 불러오고, 5개와 다음 페이지 존재 여부로 변환시킵니다.
   let isNextPage = false;
   if (wikis.length > 5) {

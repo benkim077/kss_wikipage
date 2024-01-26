@@ -12,7 +12,7 @@ function ListItems({ children }: Props) {
 }
 
 function ListItem({ children }: Props) {
-  return <li>{children}</li>;
+  return <li className="py-2">{children}</li>;
 }
 
 export const List = Object.assign(ListMain, {
