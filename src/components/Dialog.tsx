@@ -49,12 +49,7 @@ function DialogInput({ onChange, id, value, children }: DialogInputProps) {
       <label htmlFor={id} className="font-bold">
         {children}
       </label>
-      <input
-        onChange={onChange}
-        value={value}
-        id={id}
-        className="border border-black w-full"
-      ></input>
+      <input onChange={onChange} value={value} id={id}></input>
     </div>
   );
 }
@@ -74,12 +69,7 @@ function DialogTextarea({
       <label htmlFor={id} className="font-bold">
         {children}
       </label>
-      <textarea
-        onChange={onChange}
-        value={value}
-        id={id}
-        className="border border-black w-full"
-      ></textarea>
+      <textarea onChange={onChange} value={value} id={id}></textarea>
     </div>
   );
 }

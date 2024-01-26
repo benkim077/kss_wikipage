@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { List as WikiList } from "@/components/List";
-import CreateWikiModalSection from "./CreateWikiModalSection";
+import CreateWikiModalSection from "./create-wiki-modal-section";
 import createDatabaseClient from "@/api/database";
 
 export const revalidate = 0;

@@ -13,3 +13,7 @@ a {
 button {
     @apply border border-black p-1 rounded;
 }
+
+input, textarea {
+    @apply border border-black w-full;
+}

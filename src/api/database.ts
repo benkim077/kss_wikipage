@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/interface/supabase";
+import { notFound } from "next/navigation";
 
 export default function createDatabaseClient() {
   // TODO: url, key는 원래 환경 변수로 빼야한다.
@@ -8,4 +9,31 @@ export default function createDatabaseClient() {
   const supabaseKey =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15d3pheXplcGJmYWFoZ2F5eHR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDYwODA3MzcsImV4cCI6MjAyMTY1NjczN30.5dismLpTWMzMuTa7ra5tpAA83oOMV7fgktf06hJNf3w";
   return createClient<Database>(supabaseUrl, supabaseKey);
+}
+
+export async function fetchWikiDetail(wikiNum: number) {
+  const db = createDatabaseClient();
+  const { data: wiki, error } = await db
+    .from("Page")
+    .select("*")
+    .eq("id", wikiNum)
+    .limit(1)
+    .single();
+  // TODO: NOT_FOUND 로 에러처리 하긴 했는데, error.tsx는 왜 안됐을까?
+  if (error) notFound();
+  return wiki;
+}
+
+interface UpdateParams {
+  id: number;
+  title: string;
+  body: string;
+}
+export async function updateWiki({ id, title, body }: UpdateParams) {
+  const db = createDatabaseClient();
+
+  const p1 = db.from("Page").update({ title: title }).eq("id", id).select();
+  const p2 = db.from("Page").update({ body: body }).eq("id", id).select();
+
+  await Promise.all([p1, p2]);
 }
