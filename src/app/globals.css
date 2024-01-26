@@ -7,7 +7,7 @@ body {
 }
 
 a {
-    @apply text-sky-400 font-semibold;
+    @apply text-sky-400 font-semibold underline;
 }
 
 button {

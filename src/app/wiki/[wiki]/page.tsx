@@ -1,5 +1,7 @@
+import Link from "next/link";
 import UpdateButton from "./update-button";
 import { fetchAllWikis, fetchWikiDetail } from "@/api/database";
+import { createWikiMap, parseBody } from "./util";
 
 export const revalidate = 0;
 
@@ -7,18 +9,36 @@ export default async function Page({ params }: { params: { wiki: number } }) {
   const currentWikiNum = params.wiki;
   const wikiPromise = fetchWikiDetail(currentWikiNum);
 
-  // wiki.body를 파싱해야함. 강의 목록 중 해당하는 문자열을 링크로 변환해야 함. 필요한 데이터는 title, id
   const wikisPromise = fetchAllWikis();
 
-  const [wiki, wikis] = await Promise.all([wikiPromise, wikisPromise]);
+  const [{ id, title, body }, AllWikiList] = await Promise.all([
+    wikiPromise,
+    wikisPromise,
+  ]);
+  const bodyWithLinks = generateWikiLinks();
 
+  function generateWikiLinks() {
+    const wikiMap = createWikiMap(AllWikiList);
+    const parsed = parseBody(body, wikiMap);
+    return parsed.map((item, idx) => {
+      if (item !== title && wikiMap.has(item)) {
+        return (
+          <Link href={`/wiki/${wikiMap.get(item)}`} key={idx}>
+            {item}
+          </Link>
+        );
+      } else {
+        return <span key={idx}>{item}</span>;
+      }
+    });
+  }
   return (
     <>
-      <UpdateButton id={wiki.id}>수정</UpdateButton>
+      <UpdateButton id={id}>수정</UpdateButton>
       <h2 className="pb-4">
-        제목: <strong>{wiki.title}</strong>
+        제목: <strong>{title}</strong>
       </h2>
-      <p>{wiki.body}</p>
+      <p>{bodyWithLinks}</p>
     </>
   );
 }
