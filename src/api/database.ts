@@ -37,3 +37,34 @@ export async function updateWiki({ id, title, body }: UpdateParams) {
 
   await Promise.all([p1, p2]);
 }
+
+export async function fetchWikis(pageNum: number) {
+  const pageSize = 5;
+  const pageIndex = pageNum;
+  const db = createDatabaseClient();
+  let { data: wikis, error } = await db
+    .from("Page")
+    .select("id, title")
+    .order("id", { ascending: false })
+    .range(pageIndex * pageSize, pageIndex * pageSize + pageSize);
+  if (error) throw error;
+  // 여기서 null을 처리하면 JSX에서 처리할 필요가 없음
+  if (wikis === null) throw new Error("Assertion: Wikis is not null");
+  if (wikis.length === 0) notFound();
+  // 페이지 당 위키 6개를 불러오고, 5개와 다음 페이지 존재 여부로 변환시킵니다.
+  let isNextPage = false;
+  if (wikis.length > 5) {
+    isNextPage = true;
+    wikis = wikis.slice(0, 5);
+  }
+
+  return { wikis, isNextPage };
+}
+
+export async function fetchAllWikis() {
+  const db = createDatabaseClient();
+  let { data: wikis, error } = await db.from("Page").select("id, title");
+  if (error) throw error;
+  if (wikis == null) throw new Error("Assertion: Wikis is not null");
+  return wikis;
+}
