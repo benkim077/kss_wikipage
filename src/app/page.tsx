@@ -13,6 +13,7 @@ export default async function IndexPage() {
   const nextPageDisabled = !isNextPage;
   return (
     <>
+      <h1 className="text-3xl font-bold py-4">강의 목록</h1>
       <main>
         <CreateWikiModalSection />
         <WikiList>
