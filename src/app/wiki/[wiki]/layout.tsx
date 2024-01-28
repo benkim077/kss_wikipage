@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "강의 소개",
+  description: "강의 설명",
+};
+
 export default function WikiLayout({
   children,
 }: Readonly<{
