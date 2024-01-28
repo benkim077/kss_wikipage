@@ -34,7 +34,15 @@ export default async function Page({ params }: { params: { wiki: number } }) {
   }
   return (
     <>
-      <UpdateButton id={id}>수정</UpdateButton>
+      <nav className="flex gap-2">
+        <UpdateButton id={id}>수정</UpdateButton>
+        <Link
+          href="/"
+          className="font-normal text-black border border-black p-1 rounded no-underline"
+        >
+          목록
+        </Link>
+      </nav>
       <h2 className="pb-4">
         제목: <strong>{title}</strong>
       </h2>

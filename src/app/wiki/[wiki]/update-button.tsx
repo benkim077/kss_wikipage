@@ -12,7 +12,7 @@ export default function UpdateButton({ id, children }: Props) {
   return (
     <Link
       href={`/wiki/${id}/edit`}
-      className="font-normal text-black border border-black p-1 rounded"
+      className="font-normal text-black border border-black p-1 rounded no-underline"
     >
       {children}
     </Link>

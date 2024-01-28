@@ -1,6 +1,7 @@
 import { fetchWikiDetail } from "@/api/database";
 import { redirect } from "next/navigation";
 import { updateWiki } from "@/api/database";
+import BackButton from "./back-button";
 
 export default async function WikiEditPage({
   params,
@@ -30,7 +31,12 @@ export default async function WikiEditPage({
         제목: <input defaultValue={wiki.title} name="title" />
       </h2>
       <textarea name="body" defaultValue={wiki.body}></textarea>
-      <button type="submit">수정</button>
+      <nav className="flex gap-2">
+        <BackButton />
+        <button type="submit" className="no-underline">
+          수정
+        </button>
+      </nav>
     </form>
   );
 }
