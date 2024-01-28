@@ -8,7 +8,6 @@ export const revalidate = 0;
 export default async function Page({ params }: { params: { wiki: number } }) {
   const currentWikiNum = params.wiki;
   const wikiPromise = fetchWikiDetail(currentWikiNum);
-
   const wikisPromise = fetchAllWikis();
 
   const [{ id, title, body }, AllWikiList] = await Promise.all([
