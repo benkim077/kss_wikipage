@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { updateWiki } from "@/api/database";
 import BackButton from "./back-button";
 
+export const revalidate = 0;
+
 export default async function WikiEditPage({
   params,
 }: {
