@@ -1,21 +1,16 @@
 import Link from "next/link";
 import { List as WikiList } from "@/components/List";
-import CreateWikiModalSection from "./create-wiki-modal-section";
+import CreateWikiModalSection from "./[page]/create-wiki-modal-section";
 import { fetchWikis } from "@/api/database";
 
 export const revalidate = 0;
 
-export default async function IndexPage({
-  params,
-}: {
-  params: { page: number };
-}) {
-  const currentPageNum = Number(params.page);
+export default async function IndexPage() {
+  const currentPageNum = 0;
   const { wikis, isNextPage } = await fetchWikis(currentPageNum);
 
   const prevPageDisabled = currentPageNum === 0 ? true : false;
   const nextPageDisabled = !isNextPage;
-
   return (
     <>
       <main>

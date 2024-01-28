@@ -16,7 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko-KR">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <h1 className="text-3xl font-bold py-4">강의 목록</h1>
+        {children}
+      </body>
     </html>
   );
 }
